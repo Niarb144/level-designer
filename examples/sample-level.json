@@ -1,0 +1,455 @@
+{
+  "schema_version": 1,
+  "name": "Cave 01 — The crossing",
+  "grid": {
+    "cell_size_px": 32,
+    "columns": 48,
+    "rows": 22,
+    "origin": "top_left",
+    "x_axis": "right",
+    "y_axis": "down"
+  },
+  "objects": [
+    {
+      "id": "sample-0",
+      "type": "platform",
+      "name": "Platform",
+      "grid_bounds": {
+        "x": 0,
+        "y": 18,
+        "width": 9,
+        "height": 4
+      },
+      "godot": {
+        "suggested_node": "StaticBody2D",
+        "position_px": {
+          "x": 144,
+          "y": 640
+        },
+        "size_px": {
+          "width": 288,
+          "height": 128
+        }
+      }
+    },
+    {
+      "id": "sample-1",
+      "type": "platform",
+      "name": "Platform",
+      "grid_bounds": {
+        "x": 11,
+        "y": 16,
+        "width": 5,
+        "height": 1
+      },
+      "godot": {
+        "suggested_node": "StaticBody2D",
+        "position_px": {
+          "x": 432,
+          "y": 528
+        },
+        "size_px": {
+          "width": 160,
+          "height": 32
+        }
+      }
+    },
+    {
+      "id": "sample-2",
+      "type": "platform",
+      "name": "Platform",
+      "grid_bounds": {
+        "x": 18,
+        "y": 14,
+        "width": 5,
+        "height": 1
+      },
+      "godot": {
+        "suggested_node": "StaticBody2D",
+        "position_px": {
+          "x": 656,
+          "y": 464
+        },
+        "size_px": {
+          "width": 160,
+          "height": 32
+        }
+      }
+    },
+    {
+      "id": "sample-3",
+      "type": "platform",
+      "name": "Platform",
+      "grid_bounds": {
+        "x": 26,
+        "y": 12,
+        "width": 5,
+        "height": 1
+      },
+      "godot": {
+        "suggested_node": "StaticBody2D",
+        "position_px": {
+          "x": 912,
+          "y": 400
+        },
+        "size_px": {
+          "width": 160,
+          "height": 32
+        }
+      }
+    },
+    {
+      "id": "sample-4",
+      "type": "platform",
+      "name": "Platform",
+      "grid_bounds": {
+        "x": 35,
+        "y": 10,
+        "width": 7,
+        "height": 1
+      },
+      "godot": {
+        "suggested_node": "StaticBody2D",
+        "position_px": {
+          "x": 1232,
+          "y": 336
+        },
+        "size_px": {
+          "width": 224,
+          "height": 32
+        }
+      }
+    },
+    {
+      "id": "sample-5",
+      "type": "platform",
+      "name": "Platform",
+      "grid_bounds": {
+        "x": 40,
+        "y": 18,
+        "width": 8,
+        "height": 4
+      },
+      "godot": {
+        "suggested_node": "StaticBody2D",
+        "position_px": {
+          "x": 1408,
+          "y": 640
+        },
+        "size_px": {
+          "width": 256,
+          "height": 128
+        }
+      }
+    },
+    {
+      "id": "sample-6",
+      "type": "moving_platform",
+      "name": "Moving platform",
+      "grid_bounds": {
+        "x": 29,
+        "y": 17,
+        "width": 4,
+        "height": 1
+      },
+      "godot": {
+        "suggested_node": "AnimatableBody2D",
+        "position_px": {
+          "x": 992,
+          "y": 560
+        },
+        "size_px": {
+          "width": 128,
+          "height": 32
+        }
+      },
+      "movement": {
+        "direction": "right",
+        "distance_cells": 6,
+        "distance_px": 192,
+        "offset_px": {
+          "x": 192,
+          "y": 0
+        },
+        "speed_px_per_second": 60,
+        "mode": "ping_pong"
+      }
+    },
+    {
+      "id": "sample-7",
+      "type": "killzone",
+      "name": "Killzone",
+      "grid_bounds": {
+        "x": 9,
+        "y": 21,
+        "width": 31,
+        "height": 1
+      },
+      "godot": {
+        "suggested_node": "Area2D",
+        "position_px": {
+          "x": 784,
+          "y": 688
+        },
+        "size_px": {
+          "width": 992,
+          "height": 32
+        }
+      }
+    },
+    {
+      "id": "sample-8",
+      "type": "player_start",
+      "name": "Player start",
+      "grid_bounds": {
+        "x": 2,
+        "y": 16,
+        "width": 1,
+        "height": 2
+      },
+      "godot": {
+        "suggested_node": "CharacterBody2D",
+        "position_px": {
+          "x": 80,
+          "y": 544
+        },
+        "size_px": {
+          "width": 32,
+          "height": 64
+        }
+      }
+    },
+    {
+      "id": "sample-9",
+      "type": "key",
+      "name": "Key",
+      "grid_bounds": {
+        "x": 28,
+        "y": 11,
+        "width": 1,
+        "height": 1
+      },
+      "godot": {
+        "suggested_node": "Area2D",
+        "position_px": {
+          "x": 912,
+          "y": 368
+        },
+        "size_px": {
+          "width": 32,
+          "height": 32
+        }
+      }
+    },
+    {
+      "id": "sample-10",
+      "type": "exit",
+      "name": "Exit",
+      "grid_bounds": {
+        "x": 40,
+        "y": 8,
+        "width": 1,
+        "height": 2
+      },
+      "godot": {
+        "suggested_node": "Area2D",
+        "position_px": {
+          "x": 1296,
+          "y": 288
+        },
+        "size_px": {
+          "width": 32,
+          "height": 64
+        }
+      },
+      "next_level_scene": ""
+    },
+    {
+      "id": "example-enemy",
+      "type": "enemy",
+      "name": "Enemy",
+      "grid_bounds": {
+        "x": 12,
+        "y": 14,
+        "width": 1,
+        "height": 2
+      },
+      "godot": {
+        "suggested_node": "CharacterBody2D",
+        "position_px": {
+          "x": 400,
+          "y": 480
+        },
+        "size_px": {
+          "width": 32,
+          "height": 64
+        }
+      },
+      "enemy": {
+        "health": 100,
+        "contact_damage": 10,
+        "facing": "right",
+        "detection_radius_cells": 6,
+        "detection_radius_px": 192,
+        "patrol_distance_cells": 2,
+        "patrol_offset_px": {
+          "x": 64,
+          "y": 0
+        },
+        "patrol_speed_px_per_second": 80
+      }
+    },
+    {
+      "id": "example-trap",
+      "type": "trap",
+      "name": "Trap",
+      "grid_bounds": {
+        "x": 36,
+        "y": 9,
+        "width": 2,
+        "height": 1
+      },
+      "godot": {
+        "suggested_node": "Area2D",
+        "position_px": {
+          "x": 1184,
+          "y": 304
+        },
+        "size_px": {
+          "width": 64,
+          "height": 32
+        }
+      },
+      "trap": {
+        "kind": "timed",
+        "damage": 25,
+        "active_seconds": 1.5,
+        "inactive_seconds": 3
+      }
+    }
+  ],
+  "traversal_path": [
+    {
+      "step": 1,
+      "grid": {
+        "x": 2,
+        "y": 17
+      },
+      "position_px": {
+        "x": 80,
+        "y": 560
+      }
+    },
+    {
+      "step": 2,
+      "grid": {
+        "x": 7,
+        "y": 17
+      },
+      "position_px": {
+        "x": 240,
+        "y": 560
+      }
+    },
+    {
+      "step": 3,
+      "grid": {
+        "x": 10,
+        "y": 14
+      },
+      "position_px": {
+        "x": 336,
+        "y": 464
+      }
+    },
+    {
+      "step": 4,
+      "grid": {
+        "x": 13,
+        "y": 15
+      },
+      "position_px": {
+        "x": 432,
+        "y": 496
+      }
+    },
+    {
+      "step": 5,
+      "grid": {
+        "x": 17,
+        "y": 12
+      },
+      "position_px": {
+        "x": 560,
+        "y": 400
+      }
+    },
+    {
+      "step": 6,
+      "grid": {
+        "x": 20,
+        "y": 13
+      },
+      "position_px": {
+        "x": 656,
+        "y": 432
+      }
+    },
+    {
+      "step": 7,
+      "grid": {
+        "x": 24,
+        "y": 10
+      },
+      "position_px": {
+        "x": 784,
+        "y": 336
+      }
+    },
+    {
+      "step": 8,
+      "grid": {
+        "x": 28,
+        "y": 11
+      },
+      "position_px": {
+        "x": 912,
+        "y": 368
+      }
+    },
+    {
+      "step": 9,
+      "grid": {
+        "x": 32,
+        "y": 8
+      },
+      "position_px": {
+        "x": 1040,
+        "y": 272
+      }
+    },
+    {
+      "step": 10,
+      "grid": {
+        "x": 36,
+        "y": 9
+      },
+      "position_px": {
+        "x": 1168,
+        "y": 304
+      }
+    },
+    {
+      "step": 11,
+      "grid": {
+        "x": 40,
+        "y": 9
+      },
+      "position_px": {
+        "x": 1296,
+        "y": 304
+      }
+    }
+  ],
+  "notes": "Planning reference, not a Godot scene. Positions use centered object anchors. Traversal is an intended route, not a physics or collision test."
+}

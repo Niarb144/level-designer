@@ -1,0 +1,12 @@
+{
+  "name": "cave-workshop",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "description": "A grid-based planning editor for Godot 2D cave platformer levels.",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "start": "node scripts/serve.mjs",
+    "test": "node --experimental-vm-modules tests/validate.mjs"
+  }
+}
