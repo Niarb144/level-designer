@@ -1,9 +1,9 @@
 {
-  "name": "cave-workshop",
+  "name": "level-workshop",
   "version": "0.2.0",
   "private": true,
   "type": "module",
-  "description": "A grid-based planning editor for Godot 2D cave platformer levels.",
+  "description": "A grid-based planning editor for 2D level design.",
   "engines": { "node": ">=22" },
   "scripts": {
     "start": "node scripts/serve.mjs",

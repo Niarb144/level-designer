@@ -5,29 +5,258 @@
 <meta name="description" content="Plan your Godot cave levels on a grid. Arrange platforms, sketch traversal, and export a structured layout."><meta name="robots" content="noindex,nofollow">
 <link rel="icon" type="image/png" href="../public/images/logo.png" sizes="32x32">
 <link rel="stylesheet" href="./style.css"><script type="module" src="./app.js"></script>
-</head><body>
-<header class="header"><div class="brand"><img src="../images/logo.png" alt="Nidari Inc" width="32" height="32"><div><h1>Nidari Inc</h1><span class="eyebrow">LEVEL DESIGNER</span></div></div><div class="header-actions"><span class="private-label">Private workspace</span><button id="import-btn">Import JSON</button><button id="export-btn" class="primary">Export JSON</button><input id="import-file" type="file" accept=".json,application/json" hidden></div></header>
-<main>
-<div class="levelbar"><div class="level-title"><label for="level-name">LEVEL</label><input id="level-name" maxlength="100" aria-label="Level name"></div><span id="save-state">Export to keep your layout</span><button id="new-btn">New level</button></div>
-<div class="workbench">
-<aside class="palette panel" aria-label="Object tools"><h2>Build</h2><p class="muted">Choose a tool. Click the grid.</p><div id="tools" class="tool-list">
-<button data-tool="select"><span class="tool-symbol select-symbol">⌖</span><span>Select / move</span><kbd>1</kbd></button>
-<button data-tool="platform"><span class="tool-symbol" style="--c:#72cfdd">P</span><span>Platform</span><kbd>2</kbd></button>
-<button data-tool="moving_platform"><span class="tool-symbol" style="--c:#a5a0ff">M</span><span>Moving platform</span><kbd>3</kbd></button>
-<button data-tool="key"><span class="tool-symbol" style="--c:#f6ca6c">K</span><span>Key</span><kbd>4</kbd></button>
-<button data-tool="exit"><span class="tool-symbol" style="--c:#7fe0b1">E</span><span>Exit</span><kbd>5</kbd></button>
-<button data-tool="killzone"><span class="tool-symbol" style="--c:#f08991">×</span><span>Killzone</span><kbd>6</kbd></button>
-<button data-tool="player_start"><span class="tool-symbol" style="--c:#f1f6ff">S</span><span>Player start</span><kbd>7</kbd></button>
-<button data-tool="enemy"><span class="tool-symbol" style="--c:#f1a874">N</span><span>Enemy</span><kbd>9</kbd></button>
-<button data-tool="trap"><span class="tool-symbol" style="--c:#f4a0cf">T</span><span>Trap</span><kbd>0</kbd></button>
-</div><div class="palette-divider"></div><h2>Traverse</h2><button data-tool="path" class="route-tool"><span class="tool-symbol" style="--c:#dfabff">···</span><span>Sketch route</span><kbd>8</kbd></button><p class="muted">Click waypoints in order. Drag them to refine the route.</p><div class="small-actions"><button id="undo-btn">Undo</button><button id="clear-path-btn">Clear route</button></div>
-<details class="help"><summary>Controls &amp; coordinates</summary><p>Drag to move. All objects snap to the 32 px grid. Select an object to resize it.</p><p>Arrow keys move a selection. Delete removes it. Ctrl/Cmd + Z undoes a change.</p><p>On the grid, arrow keys move the cursor. Space places an object or waypoint; Enter selects an object.</p><p>Godot uses X to the right and Y down. Exported positions are at the center of each object.</p></details></aside>
-<section class="editor panel" aria-label="Level editor"><div class="canvasbar"><div><span class="section-label">LAYOUT</span><span class="grid-spec">48 × 22 cells · 32 px</span></div><div class="canvas-actions"><button id="zoom-out" aria-label="Zoom out">−</button><output id="zoom-label">Fit</output><button id="zoom-in" aria-label="Zoom in">+</button><button id="fit-btn">Fit</button></div></div>
-<div id="board-wrap" class="board-wrap"><svg id="board" xmlns="http://www.w3.org/2000/svg" viewBox="-24 -24 1584 752" role="application" aria-label="Level grid. Choose a tool and click to place. Arrow keys and Space also place objects." tabindex="0">
-<defs><pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="#293648" stroke-width="1"/></pattern><pattern id="majorgrid" width="128" height="128" patternUnits="userSpaceOnUse"><rect width="128" height="128" fill="url(#grid)"/><path d="M128 0H0V128" fill="none" stroke="#39465a" stroke-width="1"/></pattern><pattern id="hazard" width="12" height="12" patternUnits="userSpaceOnUse"><path d="M-3 12L12-3M3 15L15 3" stroke="#f08991" opacity=".25" stroke-width="3"/></pattern></defs>
-<rect x="0" y="0" width="1536" height="704" fill="url(#majorgrid)" stroke="#45526a"/><g id="rulers"></g><g id="movement-guides"></g><g id="route-layer"></g><g id="objects-layer"></g><g id="waypoints-layer"></g><g id="cursor-layer" pointer-events="none"></g><g id="preview-layer" pointer-events="none"></g>
-</svg></div><div class="canvas-footer"><span id="instruction">Select an object to move or configure it.</span><span id="object-count"></span></div><div class="previewbar"><div><span class="section-label">TRAVERSAL PREVIEW</span><p>Intended route · no physics or collision simulation</p></div><button id="preview-btn" class="preview-button">Play preview</button></div><div class="route-progress" aria-hidden="true"><div id="progress-fill"></div></div></section>
-<aside class="inspector panel" aria-label="Selected object properties"><h2>Inspector</h2><div id="properties"></div><div class="inspector-divider"></div><h2>Level checklist</h2><ul id="checklist"></ul><p class="muted checklist-note">Checks cover setup only. Test jumps and collisions in Godot.</p></aside>
-</div><section class="reference"><details><summary>Recreate this layout in Godot <span>JSON reference guide</span></summary><div class="reference-content"><p>Export JSON downloads your layout, including object bounds, center positions in pixels, collision sizes, movement, enemy and trap settings, and ordered route points. Import that file to continue editing.</p><p>Use <code>godot.position_px</code> for the node position and <code>godot.size_px</code> for a centered collision shape. Platforms suggest StaticBody2D; moving platforms suggest AnimatableBody2D; enemies suggest CharacterBody2D; keys, exits, killzones, and traps suggest Area2D. Match your scene's anchor and script as needed.</p><p>This is a design reference, not a <code>.tscn</code> importer. Enemy detection, patrol, damage, and trap timing are settings to recreate in your Godot scripts. Unsaved edits last only while this page stays open. Export before closing or reloading.</p></div></details></section>
-</main><div id="toast" class="toast" role="status" aria-live="polite"></div><dialog id="new-dialog"><form method="dialog"><h2>Start a new level?</h2><p>Export your current layout first if you want to keep it.</p><div class="dialog-actions"><button value="cancel">Keep editing</button><button value="new" class="primary">New blank level</button></div></form></dialog>
-</body></html>
+</head>
+    <body>
+    <header class="header">
+        <div class="brand">
+        <img src="../images/logo.png" alt="Nidari Inc" width="32" height="32" />
+        <div>
+            <h1>Nidari Inc</h1>
+            <span class="eyebrow">LEVEL DESIGNER</span>
+        </div>
+        </div>
+        <div class="header-actions">
+        <span class="private-label">Private workspace</span
+        ><button id="import-btn">Import JSON</button
+        ><button id="export-btn" class="primary">Export JSON</button
+        ><input
+            id="import-file"
+            type="file"
+            accept=".json,application/json"
+            hidden
+        />
+        </div>
+    </header>
+    <main>
+        <div class="levelbar">
+        <div class="level-title">
+            <label for="level-name">LEVEL</label
+            ><input id="level-name" maxlength="100" aria-label="Level name" />
+        </div>
+        <span id="save-state">Export to keep your layout</span
+        ><button id="new-btn">New level</button>
+        </div>
+        <div class="workbench">
+        <aside class="palette panel" aria-label="Object tools">
+            <h2>Build</h2>
+            <p class="muted">Choose a tool. Click the grid.</p>
+            <div id="tools" class="tool-list">
+            <button data-tool="select">
+                <span class="tool-symbol select-symbol">⌖</span
+                ><span>Select / move</span><kbd>1</kbd>
+            </button>
+            <button data-tool="platform">
+                <span class="tool-symbol" style="--c: #72cfdd">P</span
+                ><span>Platform</span><kbd>2</kbd>
+            </button>
+            <button data-tool="moving_platform">
+                <span class="tool-symbol" style="--c: #a5a0ff">M</span
+                ><span>Moving platform</span><kbd>3</kbd>
+            </button>
+            <button data-tool="key">
+                <span class="tool-symbol" style="--c: #f6ca6c">K</span
+                ><span>Key</span><kbd>4</kbd>
+            </button>
+            <button data-tool="exit">
+                <span class="tool-symbol" style="--c: #7fe0b1">E</span
+                ><span>Exit</span><kbd>5</kbd>
+            </button>
+            <button data-tool="killzone">
+                <span class="tool-symbol" style="--c: #f08991">×</span
+                ><span>Killzone</span><kbd>6</kbd>
+            </button>
+            <button data-tool="player_start">
+                <span class="tool-symbol" style="--c: #f1f6ff">S</span
+                ><span>Player start</span><kbd>7</kbd>
+            </button>
+            <button data-tool="enemy">
+                <span class="tool-symbol" style="--c: #f1a874">N</span
+                ><span>Enemy</span><kbd>9</kbd>
+            </button>
+            <button data-tool="trap">
+                <span class="tool-symbol" style="--c: #f4a0cf">T</span
+                ><span>Trap</span><kbd>0</kbd>
+            </button>
+            </div>
+            <div class="palette-divider"></div>
+            <h2>Traverse</h2>
+            <button data-tool="path" class="route-tool">
+            <span class="tool-symbol" style="--c: #dfabff">···</span
+            ><span>Sketch route</span><kbd>8</kbd>
+            </button>
+            <p class="muted">
+            Click waypoints in order. Drag them to refine the route.
+            </p>
+            <div class="small-actions">
+            <button id="undo-btn">Undo</button
+            ><button id="clear-path-btn">Clear route</button>
+            </div>
+            <details class="help">
+            <summary>Controls &amp; coordinates</summary>
+            <p>
+                Drag to move. All objects snap to the 32 px grid. Select an object
+                to resize it.
+            </p>
+            <p>
+                Arrow keys move a selection. Delete removes it. Ctrl/Cmd + Z undoes
+                a change.
+            </p>
+            <p>
+                On the grid, arrow keys move the cursor. Space places an object or
+                waypoint; Enter selects an object.
+            </p>
+            <p>
+                Godot uses X to the right and Y down. Exported positions are at the
+                center of each object.
+            </p>
+            </details>
+        </aside>
+        <section class="editor panel" aria-label="Level editor">
+            <div class="canvasbar">
+            <div>
+                <span class="section-label">LAYOUT</span
+                ><span class="grid-spec">48 × 22 cells · 32 px</span>
+            </div>
+            <div class="canvas-actions">
+                <button id="zoom-out" aria-label="Zoom out">−</button
+                ><output id="zoom-label">Zoom</output
+                ><button id="zoom-in" aria-label="Zoom in">+</button
+                ><button id="fit-btn">Fit</button>
+            </div>
+            </div>
+            <div id="board-wrap" class="board-wrap">
+            <svg
+                id="board"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="-24 -24 1584 752"
+                role="application"
+                aria-label="Level grid. Choose a tool and click to place. Arrow keys and Space also place objects."
+                tabindex="0"
+            >
+                <defs>
+                <pattern
+                    id="grid"
+                    width="32"
+                    height="32"
+                    patternUnits="userSpaceOnUse"
+                >
+                    <path
+                    d="M32 0H0V32"
+                    fill="none"
+                    stroke="#293648"
+                    stroke-width="1"
+                    />
+                </pattern>
+                <pattern
+                    id="majorgrid"
+                    width="128"
+                    height="128"
+                    patternUnits="userSpaceOnUse"
+                >
+                    <rect width="128" height="128" fill="url(#grid)" />
+                    <path
+                    d="M128 0H0V128"
+                    fill="none"
+                    stroke="#39465a"
+                    stroke-width="1"
+                    />
+                </pattern>
+                <pattern
+                    id="hazard"
+                    width="12"
+                    height="12"
+                    patternUnits="userSpaceOnUse"
+                >
+                    <path
+                    d="M-3 12L12-3M3 15L15 3"
+                    stroke="#f08991"
+                    opacity=".25"
+                    stroke-width="3"
+                    />
+                </pattern>
+                </defs>
+                <rect
+                x="0"
+                y="0"
+                width="1536"
+                height="704"
+                fill="url(#majorgrid)"
+                stroke="#45526a"
+                />
+                <g id="rulers"></g>
+                <g id="movement-guides"></g>
+                <g id="route-layer"></g>
+                <g id="objects-layer"></g>
+                <g id="waypoints-layer"></g>
+                <g id="cursor-layer" pointer-events="none"></g>
+                <g id="preview-layer" pointer-events="none"></g>
+            </svg>
+            </div>
+            <div class="canvas-footer">
+            <span id="instruction">Select an object to move or configure it.</span
+            ><span id="object-count"></span>
+            </div>
+            <div class="previewbar">
+            <div>
+                <span class="section-label">TRAVERSAL PREVIEW</span>
+                <p>Intended route · no physics or collision simulation</p>
+            </div>
+            <button id="preview-btn" class="preview-button">Play preview</button>
+            </div>
+            <div class="route-progress" aria-hidden="true">
+            <div id="progress-fill"></div>
+            </div>
+        </section>
+        <aside class="inspector panel" aria-label="Selected object properties">
+            <h2>Inspector</h2>
+            <div id="properties"></div>
+            <div class="inspector-divider"></div>
+            <h2>Level checklist</h2>
+            <ul id="checklist"></ul>
+            <p class="muted checklist-note">
+            Checks cover setup only. Test jumps and collisions in Godot.
+            </p>
+        </aside>
+        </div>
+        <section class="reference">
+        <details>
+            <summary>
+            Recreate this layout in Godot <span>JSON reference guide</span>
+            </summary>
+            <div class="reference-content">
+            <p>
+                Export JSON downloads your layout, including object bounds, center
+                positions in pixels, collision sizes, movement, enemy and trap
+                settings, and ordered route points. Import that file to continue
+                editing.
+            </p>
+            <p>
+                Use <code>godot.position_px</code> for the node position and
+                <code>godot.size_px</code> for a centered collision shape. Platforms
+                suggest StaticBody2D; moving platforms suggest AnimatableBody2D;
+                enemies suggest CharacterBody2D; keys, exits, killzones, and traps
+                suggest Area2D. Match your scene's anchor and script as needed.
+            </p>
+            <p>
+                This is a design reference, not a <code>.tscn</code> importer. Enemy
+                detection, patrol, damage, and trap timing are settings to recreate
+                in your Godot scripts. Unsaved edits last only while this page stays
+                open. Export before closing or reloading.
+            </p>
+            </div>
+        </details>
+        </section>
+    </main>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <dialog id="new-dialog">
+        <form method="dialog">
+        <h2>Start a new level?</h2>
+        <p>Export your current layout first if you want to keep it.</p>
+        <div class="dialog-actions">
+            <button value="cancel">Keep editing</button
+            ><button value="new" class="primary">New blank level</button>
+        </div>
+        </form>
+    </dialog>
+    </body>
+</html>
