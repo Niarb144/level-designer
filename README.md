@@ -1,14 +1,12 @@
 # Cave Workshop
 
-A small level-planning editor for a Godot 2D cave platformer. Place objects on a grid, configure their properties, sketch the intended traversal route, and export the layout as JSON.
-
-This review package matches Cave Workshop version 2, including the Enemy and Trap tools. The four files in `public/` are the source used by that version of the hosted editor. Hosting account metadata, credentials, and Git history are excluded.
+A small level-planning editor for a 2D platformer. Place objects on a grid, configure their properties, sketch the intended traversal route, and export the layout as JSON.
 
 ## Run locally
 
 Install Node.js 22 or newer. Extract the archive, open a terminal in this folder, and run:
 
-```sh
+```
 npm start
 ```
 
@@ -56,22 +54,6 @@ For a manual browser check, place and drag each object, edit enemy patrol/detect
 Layouts stay in memory while the page is open. Export JSON before closing or refreshing, and import it to resume. There is no cloud layout database, browser-storage autosave, or analytics.
 
 The hosted site's owner-only access is supplied by its hosting service. This standalone code has no authentication backend. The included local server listens on `127.0.0.1`; hosting the static files elsewhere requires that host's access controls if you want a private deployment. The existing hosted Cave Workshop remains private.
-
-## Prepare a Git repository
-
-After reviewing the files, initialize a repository in this folder:
-
-```sh
-git init
-git add .
-git commit -m "Initial Cave Workshop source"
-```
-
-Create your chosen remote repository and connect it when ready. No repository has been created or published as part of preparing this package.
-
-## License
-
-No license has been selected for this review package. Choose and add a `LICENSE` file before releasing it as an open-source project. `package.json` is marked `private` to prevent accidental npm package publication; this does not prevent you from creating a Git repository.
 
 ## Source snapshot
 
